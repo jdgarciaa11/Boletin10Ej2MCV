@@ -1,0 +1,5 @@
+package MODELO.Enums;
+
+public enum CargoFijo {
+    DIRECTOR, JEFE_DE_ESTUDIO, SECRETARIO, JEFE_DE_DEPARTAMENTO, PROFESOR
+}
