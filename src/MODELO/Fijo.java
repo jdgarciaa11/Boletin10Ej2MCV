@@ -43,17 +43,17 @@ public class Fijo extends Profesor{
     //INTERCAMBIAR CARGO CON OTRO PROFESOR FIJO
     public void cambiarCargo(Fijo prof){
         CargoFijo cargoAux;
-        cargoAux = getCargo();
-        setCargo(prof.getCargo());
+        cargoAux = this.getCargo();
+        this.setCargo(prof.getCargo());
         prof.setCargo(cargoAux);
     }
 
     @Override
     public String toString() {
-        return "Fijo{" +
-                "identificadorFuncionario=" + identificadorFuncionario +
-                ", fechaPlaza=" + fechaPlaza +
-                ", cargo=" + cargo +
-                "} " + super.toString();
+        return "Fijo" +
+                "\n\tIdentificadorFuncionario = " + identificadorFuncionario +
+                "\n\tFecha Plaza = " + fechaPlaza +
+                "\n\tCargo = " + cargo +
+                "\n\t" + super.toString();
     }
 }

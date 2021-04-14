@@ -20,7 +20,7 @@ public class Main {
                 case "1" -> addInterino(profInterinoList);//Se quiere añadir un profesor interino
                 case "2" -> addFijo(profFijoList);//Se quiere añadir un profesor fijo
                 case "3" -> mostrarOpcionesInterino(profInterinoList);//Se quiere mostrar que hacer con los profesores interinos
-                //case "4" -> mostrarOpcionesFijo();//Se quiere mostrar que hacer con los profesores fijo
+                case "4" -> mostrarOpcionesFijo(profFijoList);//Se quiere mostrar que hacer con los profesores fijo
             }
         } while (!eleccion.equals("5"));//5 es la opcion para salir del programa
     }
@@ -76,20 +76,31 @@ public class Main {
     }
     private static void mostrarOpcionesInterino(List<Interino> profInterinoList) {
         String eleccion;
-        int prof;
-        for (int i = 0; i < profInterinoList.size(); i++) {
-            Interino interino = profInterinoList.get(i);
-            System.out.println("["+i+"] "+interino.toString());
-        }
-        prof = Integer.parseInt(Menu.eligeInterino());
+        int prof = Integer.parseInt(Menu.eligeInterino(profInterinoList));
         do {
             eleccion = Menu.menuInterino();
             switch (eleccion) {
-                //case "1" -> cambiarFechaInterinidad();
-                //case "2" -> consultarDiasInterinidad();
-                //case "3" -> consultarDiasQueLeQuedanTrabajando();
+               case "1" -> cambiarFechaInterinidad(prof, profInterinoList);
+               case "2" -> Menu.consultarDiasInterinidad(prof, profInterinoList);
+               case "3" -> Menu.consultarDiasQueLeQuedanTrabajando(prof, profInterinoList);
             }
         } while (!eleccion.equals("4"));
-        //profInterinoList.get(prof);
+    }
+
+    private static void mostrarOpcionesFijo(List<Fijo> profFijoList) {
+        String eleccion;
+        int prof = Integer.parseInt(Menu.eligeFijo(profFijoList));
+        do {
+            eleccion = Menu.menuFijo();
+            switch (eleccion) {
+                case "1" -> profFijoList.get(prof).cambiarCargo(profFijoList.get(Integer.parseInt(Menu.eligeFijo(profFijoList))));
+            }
+        } while (!eleccion.equals("2"));
+    }
+
+    private static void cambiarFechaInterinidad(int prof, List<Interino> profInterinoList) {
+        LocalDate fechaInicio = Menu.obtenerFechaInicio();
+        LocalDate fechaFinal = Menu.obtenerFechaFin();
+        profInterinoList.get(prof).cambiarFechas(fechaInicio, fechaFinal);
     }
 }

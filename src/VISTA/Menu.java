@@ -1,7 +1,11 @@
 package VISTA;
 
+import MODELO.Fijo;
+import MODELO.Interino;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -40,6 +44,8 @@ public class Menu {
     private static final String MENU_IDENTIFICADOR = "Introduce un identificador: ";
     private static final String MENSAJE_ERROR_VAL_ID = "ERROR! El dato introducido no es un numero o no tiene una longitud de 4.";
     private static final String MENU_INSTITUTO = "Dime el instituto donde trabaja: ";
+    private static final String DIAS_RESTANTES = "Estos son los dias que te quedan para finalizar la inteniridad: ";
+    private static final String DIAS_TOTALES = "Estos son los dias de inteniridad que tienes: ";
 
     private static Scanner teclado = new Scanner(System.in);//TODO pasar el scaner por parametro para mejorar el acoplamiento
 
@@ -58,8 +64,6 @@ public class Menu {
         System.out.print(MENU_APELLIDO);
         return teclado.nextLine();//Obtener informacion
     }
-
-    //TODO PARSE DONDE SE HACE CONTROLADORA O MENU
 
     public static int obtenerEdad() {
         System.out.print(MENU_EDAD);
@@ -123,7 +127,7 @@ public class Menu {
             System.out.print(MENU_IDENTIFICADOR);
             id = teclado.nextLine();
             if (isNumeric(id)){
-                if (id.length() != 4){
+                if (id.length() == 4){
                     salir = true;
                 }
             } else {
@@ -139,9 +143,34 @@ public class Menu {
         return teclado.nextLine();
     }
 
-    public static String eligeInterino(){
+    public static String menuFijo(){
+        System.out.println(MENU_FIJO);
+        System.out.print(ELIGE_OPCION);
+        return teclado.nextLine();
+    }
+
+    public static String eligeInterino(List<Interino> profInterinoList){
+        for (int i = 0; i < profInterinoList.size(); i++) {
+            System.out.println("["+i+"] "+profInterinoList.get(i).toString());
+        }
         System.out.print(ELIGE_INTERINO);
         return teclado.nextLine();
+    }
+
+    public static String eligeFijo(List<Fijo> profFijoList) {
+        for (int i = 0; i < profFijoList.size(); i++) {
+            System.out.println("["+i+"] "+profFijoList.get(i).toString());
+        }
+        System.out.print(ELIGE_FIJO);
+        return teclado.nextLine();
+    }
+
+    public static void consultarDiasInterinidad(int prof, List<Interino> profInterinoList) {
+        System.out.println(DIAS_TOTALES+profInterinoList.get(prof).duracionInternidad());
+    }
+
+    public static void consultarDiasQueLeQuedanTrabajando(int prof, List<Interino> profInterinoList) {
+        System.out.println(DIAS_RESTANTES+profInterinoList.get(prof).tiempoRestrante());
     }
 
     private static boolean isNumeric(String cadena){
@@ -152,5 +181,4 @@ public class Menu {
             return false;
         }
     }
-
 }

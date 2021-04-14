@@ -35,4 +35,10 @@ public class Profesor {
         this.edad = edad;
     }
 
+    @Override
+    public String toString() {
+        return "Nombre = " + nombre +
+                "\n\tApellidos = " + apellidos +
+                "\n\tEdad = " + edad;
+    }
 }

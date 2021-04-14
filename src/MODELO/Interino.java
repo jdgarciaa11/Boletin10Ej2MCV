@@ -3,7 +3,6 @@ package MODELO;
 import MODELO.Enums.CargoInterino;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 
 public class Interino extends Profesor{
@@ -58,23 +57,19 @@ public class Interino extends Profesor{
     }
 
     //Funcion para saber cuanto dura su interinidad
-    public void duracionInternidad(){
-        long dias= ChronoUnit.DAYS.between(getFechaInicio(), getFechaFinal());
-        System.out.println("Dias de duracion de la internidad: "+dias);
+    public long duracionInternidad(){
+        return ChronoUnit.DAYS.between(getFechaInicio(), getFechaFinal());
     }
 
     //Funcion para cambiar su fecha de inicio y final de interino
-    public void cambiarFechas(String fInicio, String fFinal){
-        LocalDate fInicial = LocalDate.parse(fInicio);
-        LocalDate fFin = LocalDate.parse(fFinal);
-        setFechaInicio(fInicial);
-        setFechaFinal(fFin);
+    public void cambiarFechas(LocalDate fInicio, LocalDate fFinal){
+        setFechaInicio(fInicio);
+        setFechaFinal(fFinal);
     }
 
     //Funcion para saber cuanto tiempo le queda para el fin de interinidad
-    public void tiempoRestrante(){
-        long dias= ChronoUnit.DAYS.between(getFechaActual(), getFechaFinal());
-        System.out.println("Dias de que te quedan para salir: "+dias);
+    public long tiempoRestrante(){
+        return ChronoUnit.DAYS.between(getFechaActual(), getFechaFinal());
     }
 
     public void cambiarCargo(Interino prof){
@@ -86,13 +81,12 @@ public class Interino extends Profesor{
 
     @Override
     public String toString() {
-        return "Interino{" +
-                "fechaInicio=" + fechaInicio +
-                ", fechaFinal=" + fechaFinal +
-                ", instituto='" + instituto + '\'' +
-                ", cargo=" + cargo +
-                ", fechaActual=" + fechaActual +
-                "} " + super.toString();
+        return "Interino" +
+                "\n\tFecha Inicio = " + fechaInicio +
+                "\n\tFecha Final = " + fechaFinal +
+                "\n\tInstituto = " + instituto +
+                "\n\tCargo = " + cargo +
+                "\n\t" + super.toString();
     }
 }
 
