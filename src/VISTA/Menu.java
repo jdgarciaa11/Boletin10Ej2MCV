@@ -5,47 +5,50 @@ import MODELO.Interino;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
-    private static final String MENU_INICIAL = """
+    public static final String MENU_INICIAL = """
             [1]. Crear profesor interino.
             [2]. Crear profesor fijo.
             [3]. Opciones profesor interino.
             [4]. Opciones profesro fijo.
             [5]. EXIT.""";
-    private static final String MENU_FIJO = """
+    public static final String MENU_FIJO = """
             [1]. Intercambiar cargo con otro profesor fijo.
             [2]. MENU PRINCIPAL.""";
-    private static final String MENU_INTERINO = """
+    public static final String MENU_INTERINO = """
             [1]. Cambiar la fecha de interinidad.
             [2]. Consultar cuantos dias tiene de interinidad.
             [3]. Consultar cuantos dias que le queda trabajando.
             [4]. MENU PRINCIPAL.""";
-    private static final String ELIGE_OPCION = "Elige una opcion: ";
-    private static final String ELIGE_INTERINO = "Elige un profesor interino: ";
-    private static final String ELIGE_FIJO = "Elige un profesor fijo: ";
-    private static final String MENU_NOMBRE = "Dime un nombre: ";
-    private static final String MENU_APELLIDO = "Dime los apellidos: ";
-    private static final String MENU_EDAD = "Dime un edad: ";
-    private static final String MENU_FECHA_INICIO = "Dime una fecha de inicio: ";
-    private static final String MENU_FECHA_OBTENCION_PLAZA = "Dime una fecha de obtencion de la plaza: ";
-    private static final String MENU_FECHA_FIN = "Dime una fecha de fin: ";
-    private static final String MENU_CARGO_INTERINO = """
+    public static final String ELIGE_OPCION = "Elige una opcion: ";
+    public static final String ELIGE_INTERINO = "Elige un profesor interino: ";
+    public static final String ELIGE_FIJO = "Elige un profesor fijo: ";
+    public static final String MENU_NOMBRE = "Dime un nombre: ";
+    public static final String MENU_APELLIDO = "Dime los apellidos: ";
+    public static final String MENU_EDAD = "Dime un edad: ";
+    public static final String MENU_FECHA_INICIO = "Dime una fecha de inicio: ";
+    public static final String MENU_FECHA_OBTENCION_PLAZA = "Dime una fecha de obtencion de la plaza: ";
+    public static final String MENU_FECHA_FIN = "Dime una fecha de fin: ";
+    public static final String MENU_CARGO_INTERINO = """
             [1].JEFE DE DEPARTAMENTO
             [2].PROFESOR""";
-    private static final String MENU_CARGO_FIJO = """
+    public static final String MENU_CARGO_FIJO = """
             [1].JEFE DE DEPARTAMENTO
             [2].PROFESOR
             [3].DIRECTOR
             [4].JEFE DE ESTUDIO
             [5].SECRETARIO""";
-    private static final String MENU_IDENTIFICADOR = "Introduce un identificador: ";
-    private static final String MENSAJE_ERROR_VAL_ID = "ERROR! El dato introducido no es un numero o no tiene una longitud de 4.";
-    private static final String MENU_INSTITUTO = "Dime el instituto donde trabaja: ";
-    private static final String DIAS_RESTANTES = "Estos son los dias que te quedan para finalizar la inteniridad: ";
-    private static final String DIAS_TOTALES = "Estos son los dias de inteniridad que tienes: ";
+    public static final String MENU_IDENTIFICADOR = "Introduce un identificador: ";
+    public static final String MENSAJE_ERROR_VAL_ID = "ERROR! El dato introducido no es un numero o no tiene una longitud de 4.";
+    public static final String MENSAJE_ERROR_FECHA = "ERROR! El formato de la fecha es dd-MM-yyyy.";
+    public static final String MENSAJE_ERROR_EDAD = "ERROR! Su edad tiene que ser de 18 o mayor de 18.";
+    public static final String MENU_INSTITUTO = "Dime el instituto donde trabaja: ";
+    public static final String DIAS_RESTANTES = "Estos son los dias que te quedan para finalizar la inteniridad: ";
+    public static final String DIAS_TOTALES = "Estos son los dias de inteniridad que tienes: ";
 
     private static Scanner teclado = new Scanner(System.in);//TODO pasar el scaner por parametro para mejorar el acoplamiento
 
@@ -66,8 +69,20 @@ public class Menu {
     }
 
     public static int obtenerEdad() {
-        System.out.print(MENU_EDAD);
-        return Integer.parseInt(teclado.nextLine());//Obtener informacion
+        String edad;
+        boolean salir = false;
+        do {
+            System.out.print(MENU_EDAD);
+            edad = teclado.nextLine();
+            if (isNumeric(edad)){
+                if (Integer.parseInt(edad) >= 18){
+                    salir = true;
+                }
+            } else {
+                System.out.println(MENSAJE_ERROR_EDAD);
+            }
+        } while (!salir);
+        return Integer.parseInt(edad);//Obtener informacion
     }
 
     public static LocalDate obtenerFechaInicio() {
@@ -76,7 +91,12 @@ public class Menu {
         do{
             System.out.print(MENU_FECHA_INICIO);
             fecha = teclado.nextLine();
-            fInicio = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            try {
+                fInicio = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            } catch (DateTimeParseException tm){
+                System.out.println(MENSAJE_ERROR_FECHA);
+                fInicio = null;
+            }
         }while (fInicio == null);
         return fInicio;
     }
@@ -87,7 +107,12 @@ public class Menu {
         do{
             System.out.print(MENU_FECHA_FIN);
             fecha = teclado.nextLine();
-            fFin = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            try {
+                fFin = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            } catch (DateTimeParseException tm){
+                System.out.println(MENSAJE_ERROR_FECHA);
+                fFin = null;
+            }
         }while (fFin == null);
         return fFin;
     }
@@ -98,7 +123,12 @@ public class Menu {
         do{
             System.out.print(MENU_FECHA_OBTENCION_PLAZA);
             fecha = teclado.nextLine();
-            fPlaza = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            try {
+                fPlaza = LocalDate.parse(fecha, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+            } catch (DateTimeParseException tm){
+                System.out.println(MENSAJE_ERROR_FECHA);
+                fPlaza = null;
+            }
         }while (fPlaza == null);
         return fPlaza;
     }
